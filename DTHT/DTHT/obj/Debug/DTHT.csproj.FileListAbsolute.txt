@@ -1,0 +1,10 @@
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\bin\Debug\DTHT.exe.config
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\bin\Debug\DTHT.exe
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\bin\Debug\DTHT.pdb
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.csprojAssemblyReference.cache
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.Form1.resources
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.Properties.Resources.resources
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.csproj.GenerateResource.cache
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.csproj.CoreCompileInputs.cache
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.exe
+D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.pdb
