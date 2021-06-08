@@ -50,22 +50,21 @@ namespace DTHT
             string[] arrListString = txbDataInput.Text.Split('\n');
             temp = txbDataInput.Text;
             temp = temp.Replace("\n", string.Empty).Replace("\t", string.Empty).Replace(" ", string.Empty).Replace("\r", string.Empty);
-            txbDataOutput.Text = temp;
             int lastCh = temp.Length;
             int prePos = temp.IndexOf("pre");
             int postPos = temp.IndexOf("post");
             functionName = temp.Substring(0, prePos);
             functionPre = temp.Substring(prePos, postPos - prePos);
             functionPost = temp.Substring(postPos, lastCh - postPos);
-            
+
         }
         public List<string> Generate()
         {
             List<string> DataOutput = new List<string>();
-            DataOutput.Add("using| System;");
-            DataOutput.Add("namespace| FormalSpecification");
+            DataOutput.Add("using System;");
+            DataOutput.Add("namespace FormalSpecification");
             DataOutput.Add("{");//name space
-            DataOutput.Add(string.Format("\tpublic| class| Program"));
+            DataOutput.Add(string.Format("\tpublic class Program"));
             DataOutput.Add("\t{");
             //chia file thành 3 phần tên hàm, pre, post
             CutStringOfFileInput();
@@ -75,6 +74,7 @@ namespace DTHT
             divideFunction.DividePre(DataOutput, functionPre);
             //generate phần post
             divideFunction.DividePost(DataOutput, functionPost);
+            divideFunction.MainGenerate(DataOutput, functionName);
             DataOutput.Add("\t}");//class program
             DataOutput.Add("}");//name 
 
@@ -82,12 +82,13 @@ namespace DTHT
         }
         private void btnBuildSolution_Click(object sender, EventArgs e)
         {
+            txbDataOutput.Clear();
             List<string> dataoutput = Generate();
             for (int i = 0; i < dataoutput.Count; i++)
             {
+                txbDataOutput.Text += dataoutput[i] + "\n";
                 Console.WriteLine(dataoutput[i]);
             }
-            //Console.WriteLine(functionPre);
         }
     }
 }
