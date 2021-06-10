@@ -8,3 +8,29 @@ D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.csproj.GenerateResource
 D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.csproj.CoreCompileInputs.cache
 D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.exe
 D:\UIT\SE106_DacTaHinhThuc\Doan\DTHT\DTHT\obj\Debug\DTHT.pdb
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\bin\Debug\DTHT.exe.config
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\bin\Debug\DTHT.exe
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\bin\Debug\DTHT.pdb
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.csproj.AssemblyReference.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.Form1.resources
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.Properties.Resources.resources
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.csproj.GenerateResource.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.csproj.CoreCompileInputs.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.exe
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.pdb
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\bin\Debug\FastColoredTextBox.dll
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\bin\Debug\FastColoredTextBox.xml
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161\DTHT\DTHT\obj\Debug\DTHT.csproj.CopyComplete
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.csproj.AssemblyReference.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.Form1.resources
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.Properties.Resources.resources
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.csproj.GenerateResource.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.csproj.CoreCompileInputs.cache
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.exe
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.pdb
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\bin\Debug\DTHT.exe.config
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\bin\Debug\DTHT.exe
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\bin\Debug\DTHT.pdb
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\bin\Debug\FastColoredTextBox.dll
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\bin\Debug\FastColoredTextBox.xml
+C:\Users\Asus\Documents\GitHub\DTHT_18521147_18521161 - Copy\DTHT\DTHT\obj\Debug\DTHT.csproj.CopyComplete

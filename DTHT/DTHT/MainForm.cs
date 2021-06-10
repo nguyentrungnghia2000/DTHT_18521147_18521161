@@ -24,27 +24,6 @@ namespace DTHT
             InitializeComponent();
         }
 
-        private void tsbSaveFile_Click(object sender, EventArgs e)
-        {
-            StreamWriter writeFile = new StreamWriter(txbExeFileName.Text, true);
-            writeFile.WriteLine(txbDataOutput.Text);
-            writeFile.Close();
-        }
-
-        private void tsbOpenFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            string fileName;
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                fileName = openFileDialog.FileName;
-                txbExeFileName.Text = fileName;
-                StreamReader readFile = new StreamReader(fileName);
-                txbDataInput.Text = readFile.ReadToEnd();
-                readFile.Close();
-            }
-        }
-
         public void CutStringOfFileInput()
         {
             string[] arrListString = txbDataInput.Text.Split('\n');
@@ -82,13 +61,234 @@ namespace DTHT
         }
         private void btnBuildSolution_Click(object sender, EventArgs e)
         {
-            txbDataOutput.Clear();
-            List<string> dataoutput = Generate();
-            for (int i = 0; i < dataoutput.Count; i++)
+            if(txbDataInput.Text!="")
             {
-                txbDataOutput.Text += dataoutput[i] + "\n";
-                Console.WriteLine(dataoutput[i]);
+                txbDataOutput.Clear();
+                List<string> dataoutput = Generate();
+                for (int i = 0; i < dataoutput.Count; i++)
+                {
+                    txbDataOutput.Text += dataoutput[i] + "\n";
+                    Console.WriteLine(dataoutput[i]);
+                }
+                for (int i = 1; i <= 4; i++)
+                {
+                    this.HighLight_Syntax(txbDataOutput, CaseText(i), i);
+                }
             }
+        }
+
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            txbClassName.Text = "";
+            txbExeFileName.Text = "";
+            txbDataInput.Text = "";
+            txbDataOutput.Text = "";
+        }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            string fileName;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = openFileDialog.FileName;
+                txbExeFileName.Text = fileName;
+                StreamReader readFile = new StreamReader(fileName);
+                txbDataInput.Text = readFile.ReadToEnd();
+                readFile.Close();
+            }
+            for (int i = 1; i <= 4; i++)
+            {
+                this.HighLight_Syntax(txbDataInput, CaseText(i), i);
+            }
+            txbDataOutput.Text = "";
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (txbExeFileName.Text == "")
+            {
+                if (txbDataInput.Text != "")
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (Stream s = File.Open(saveFileDialog.FileName, FileMode.CreateNew))
+                        using (StreamWriter sw = new StreamWriter(s))
+                        {
+                            sw.Write(txbDataOutput.Text);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string path = @txbExeFileName.Text;
+                File.WriteAllText(txbExeFileName.Text, txbDataInput.Text);
+            }
+        }
+
+        private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+            RichTextBox textBox = this.ActiveControl as RichTextBox;
+            if (textBox.SelectedText != string.Empty)
+                Clipboard.SetData(DataFormats.Text, textBox.SelectedText);
+            textBox.SelectedText = string.Empty;
+            pasteToolStripButton.Enabled = true;
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            {
+                int position = ((RichTextBox)this.ActiveControl).SelectionStart;
+                this.ActiveControl.Text = this.ActiveControl.Text.Insert(position, Clipboard.GetText());
+            }
+        }
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            RichTextBox textBox = this.ActiveControl as RichTextBox;
+            if (textBox.SelectedText != string.Empty)
+                Clipboard.SetData(DataFormats.Text, textBox.SelectedText);
+            pasteToolStripButton.Enabled = true;
+        }
+
+        private void toolStripLabel3_Click(object sender, EventArgs e)
+        {
+            txbDataInput.Undo();
+            toolStripLabel4.Enabled = true;
+            toolStripLabel3.Enabled = false;
+        }
+
+        private void toolStripLabel4_Click(object sender, EventArgs e)
+        {
+            txbDataInput.Undo();
+            toolStripLabel3.Enabled = true;
+            toolStripLabel4.Enabled = false;
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txbClassName.Text = "";
+            txbExeFileName.Text = "";
+            txbDataInput.Text = "";
+            txbDataOutput.Text = "";
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            string fileName;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = openFileDialog.FileName;
+                txbExeFileName.Text = fileName;
+                StreamReader readFile = new StreamReader(fileName);
+                txbDataInput.Text = readFile.ReadToEnd();
+                readFile.Close();
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (txbExeFileName.Text == "")
+            {
+                if (txbDataInput.Text != "")
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (Stream s = File.Open(saveFileDialog.FileName, FileMode.CreateNew))
+                        using (StreamWriter sw = new StreamWriter(s))
+                        {
+                            sw.Write(txbDataOutput.Text);
+                            //txbExeFileName.Text=Path.GetFileName(saveFileDialog.FileName);
+                        }
+                    }
+                }
+            }
+            else
+            {
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void HighLight_Syntax(RichTextBox richTextBox, string[] find, int ColorCase)
+        {
+            for (int i = 0; i < find.Length; i++)
+            {
+                int index = 0;
+                string findword = find[i];
+                RichTextBox temp = richTextBox;
+                while (index <= temp.Text.LastIndexOf(findword) && (index != -1))
+                {
+                    temp.Find(findword, index, temp.TextLength, RichTextBoxFinds.None);
+                    if (temp.Find(findword, index, temp.TextLength, RichTextBoxFinds.None) != 0)
+                    {
+                        string str = temp.Text.Substring(temp.Find(findword, index, temp.TextLength, RichTextBoxFinds.None) - 1, 1);
+                        if (hasSpecialChar(str))
+                        {
+                            switch (ColorCase)
+                            {
+                                case 1:
+                                    temp.SelectionColor = Color.Blue;
+                                    break;
+                                case 2:
+                                    temp.SelectionColor = Color.Red;
+                                    break;
+                                case 3:
+                                    temp.SelectionColor = Color.Brown;
+                                    break;
+                                case 4:
+                                    temp.SelectionColor = Color.Green;
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                        temp.SelectionColor = Color.Blue;
+                    index = temp.Text.IndexOf(findword, index + 1);
+                }
+                richTextBox = temp;
+            }
+        }
+        public static bool hasSpecialChar(string input)
+        {
+            string[] checkstr = { "\t", "\n", "(", ")", ":", "&", " ", "=" };
+            foreach (var item in checkstr)
+            {
+                if (input == item)
+                    return true;
+            }
+            return false;
+        }
+        public String[] CaseText(int CaseColor)
+        {
+            string[] str = { };
+            if (CaseColor == 1)
+            {
+                str = new string[] { "pre", "post", "if", "else", "namespace", "public", "static", "void", "class", "ref", "return", "int", "float", "double", "string", "new", "using" };
+            }
+            else if (CaseColor == 2)
+            {
+                str = new string[] { "R" };
+            }
+            else if (CaseColor == 3)
+            {
+                str = new string[] { "&&", "||", "Program" };
+            }
+            else if (CaseColor == 4)
+            {
+                str = new string[] { "Console" };
+            }
+            return str;
+        }
+
+        private void txbDataInput_TextChanged(object sender, EventArgs e)
+        {
+            toolStripLabel3.Enabled = true;
         }
     }
 }

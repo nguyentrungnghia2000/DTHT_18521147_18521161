@@ -172,38 +172,47 @@ namespace DTHT
                 for (int i = 0; i < conditions.Length; i++)
                 {
                     conditions[i] = conditions[i].Replace("(", string.Empty).Replace(")", string.Empty);
-                    string[] conditions_result = conditions[i].Split(new[] { "&&" }, StringSplitOptions.None);
-                    if (conditions_result.Length > 2)
+                    if (conditions[i].Contains("&&") == true)
                     {
-                        for (int j = 1; j < conditions_result.Length; j++)
+                        string[] conditions_result = conditions[i].Split(new[] { "&&" }, StringSplitOptions.None);
+                        if (conditions_result.Length > 2)
                         {
-                            if (j == 1)
+                            for (int j = 1; j < conditions_result.Length; j++)
                             {
-                                conditions_result[j] = PreWrite(conditions_result[j]);
-                                ifClause = string.Format("\t\t\tif ({0} ", conditions_result[j]);
-                            }
-                            else if (j == conditions_result.Length - 1)
-                            {
-                                conditions_result[j] = PreWrite(conditions_result[j]);
-                                ifClause += string.Format("&& {0})", conditions_result[j]);
-                            }
-                            else
-                            {
-                                conditions_result[j] = PreWrite(conditions_result[j]);
-                                ifClause += string.Format("&& {0} ", conditions_result[j]);
+                                if (j == 1)
+                                {
+                                    conditions_result[j] = PreWrite(conditions_result[j]);
+                                    ifClause = string.Format("\t\t\tif ({0} ", conditions_result[j]);
+                                }
+                                else if (j == conditions_result.Length - 1)
+                                {
+                                    conditions_result[j] = PreWrite(conditions_result[j]);
+                                    ifClause += string.Format("&& {0})", conditions_result[j]);
+                                }
+                                else
+                                {
+                                    conditions_result[j] = PreWrite(conditions_result[j]);
+                                    ifClause += string.Format("&& {0} ", conditions_result[j]);
+                                }
                             }
                         }
+                        else
+                        {
+                            conditions_result[1] = PreWrite(conditions_result[1]);
+                            ifClause = string.Format("\t\t\tif ({0})", conditions_result[1]);
+                        }
+                        data_output.Add(ifClause);
+                        string mainClause = string.Format("\t\t\t\t{0};", conditions_result[0]);
+                        data_output.Add("\t\t\t{");
+                        data_output.Add(mainClause);
+                        data_output.Add("\t\t\t}");
                     }
+
                     else
                     {
-                        conditions_result[1] = PreWrite(conditions_result[1]);
-                        ifClause = string.Format("\t\t\tif ({0})", conditions_result[1]);
+                        string mainClause = string.Format("\t\t\t{0};", conditions[i]);
+                        data_output.Add(mainClause);
                     }
-                    data_output.Add(ifClause);
-                    string mainClause = string.Format("\t\t\t\t{0};", conditions_result[0]);
-                    data_output.Add("\t\t\t{");
-                    data_output.Add(mainClause);
-                    data_output.Add("\t\t\t}");
 
                 }
                 data_output.Add("\t\t}");
