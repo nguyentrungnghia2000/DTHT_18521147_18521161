@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using Microsoft.CSharp;
 
 namespace DTHT
 {
@@ -18,6 +21,10 @@ namespace DTHT
         string functionName;
         string functionPre;
         string functionPost;
+        Stack<int> UndoFlag = new Stack<int>();
+        Stack<int> RedoFlag = new Stack<int>();
+
+
         DivideFunction divideFunction = new DivideFunction();
         public Form1()
         {
@@ -35,7 +42,6 @@ namespace DTHT
             functionName = temp.Substring(0, prePos);
             functionPre = temp.Substring(prePos, postPos - prePos);
             functionPost = temp.Substring(postPos, lastCh - postPos);
-
         }
         public List<string> Generate()
         {
@@ -148,16 +154,38 @@ namespace DTHT
 
         private void toolStripLabel3_Click(object sender, EventArgs e)
         {
-            txbDataInput.Undo();
+            if (UndoFlag.Peek() == 1)
+            {
+                txbDataInput.Undo();
+                //UndoFlag.Push();
+            }
+            else
+            {
+                txbDataOutput.Undo();
+            }
+            RedoFlag.Push(UndoFlag.Peek());
+            UndoFlag.Pop();
             toolStripLabel4.Enabled = true;
-            toolStripLabel3.Enabled = false;
         }
 
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-            txbDataInput.Redo();
-            toolStripLabel3.Enabled = true;
-            toolStripLabel4.Enabled = false;
+            if(RedoFlag.Peek()==1)
+            {
+                txbDataInput.Redo();
+            }
+            else
+            {
+                txbDataOutput.Redo();
+            }
+            UndoFlag.Push(RedoFlag.Peek());
+            RedoFlag.Pop();
+            if(RedoFlag.Count==0)
+            {
+                toolStripLabel4.Enabled = false;
+            }    
+            //toolStripLabel3.Enabled = true;
+            //toolStripLabel4.Enabled = false;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -180,6 +208,8 @@ namespace DTHT
                 txbDataInput.Text = readFile.ReadToEnd();
                 readFile.Close();
             }
+            this.LoadTextInputOutput();
+            txbDataOutput.Text = "";
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -286,6 +316,52 @@ namespace DTHT
             {
                 this.HighLight_Syntax(txbDataInput, CaseText(i), i);
                 this.HighLight_Syntax(txbDataOutput, CaseText(i), i);
+            }
+        }
+
+        private void txbDataInput_TextChanged(object sender, EventArgs e)
+        {
+            UndoFlag.Push(1);
+        }
+
+        private void txbDataOutput_TextChanged(object sender, EventArgs e)
+        {
+            UndoFlag.Push(2);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
+            ICodeCompiler icc = codeProvider.CreateCompiler();
+            string Output = "Out.exe";
+            Button ButtonObject = (Button)sender;
+
+            richTextBox1.Text = "";
+            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
+            //Make sure we generate an EXE, not a DLL
+            parameters.GenerateExecutable = true;
+            parameters.OutputAssembly = Output;
+            CompilerResults results = icc.CompileAssemblyFromSource(parameters, txbDataOutput.Text);
+
+            if (results.Errors.Count > 0)
+            {
+                richTextBox1.ForeColor = Color.Red;
+                foreach (CompilerError CompErr in results.Errors)
+                {
+                    richTextBox1.Text = richTextBox1.Text +
+                                "Line number " + CompErr.Line +
+                                ", Error Number: " + CompErr.ErrorNumber +
+                                ", '" + CompErr.ErrorText + ";" +
+                                Environment.NewLine + Environment.NewLine;
+                }
+            }
+            else
+            {
+                //Successful Compile
+                //textBox2.ForeColor = Color.Blue;
+                //textBox2.Text = "Success!";
+                //If we clicked run then launch our EXE
+                if (ButtonObject.Text == "Run") Process.Start(Output);
             }
         }
         //private RichTextBox GetRichTextBox()

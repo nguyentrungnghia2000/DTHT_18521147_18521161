@@ -66,6 +66,8 @@
             this.txbClassName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -84,7 +86,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1243, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1243, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -174,9 +176,9 @@
             this.toolStripSeparator2,
             this.toolStripLabel1,
             this.toolStripLabel2});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 28);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 30);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1243, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1243, 31);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -186,7 +188,7 @@
             this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(29, 24);
+            this.newToolStripButton.Size = new System.Drawing.Size(29, 28);
             this.newToolStripButton.Text = "&New";
             this.newToolStripButton.Click += new System.EventHandler(this.newToolStripButton_Click);
             // 
@@ -253,7 +255,6 @@
             // 
             // toolStripLabel3
             // 
-            this.toolStripLabel3.Enabled = false;
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(45, 24);
             this.toolStripLabel3.Text = "Undo";
@@ -291,14 +292,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Controls.Add(this.txbDataOutput);
             this.panel1.Controls.Add(this.txbDataInput);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 55);
+            this.panel1.Location = new System.Drawing.Point(0, 61);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1243, 611);
+            this.panel1.Size = new System.Drawing.Size(1243, 605);
             this.panel1.TabIndex = 2;
             // 
             // txbDataOutput
@@ -309,6 +311,7 @@
             this.txbDataOutput.Size = new System.Drawing.Size(701, 605);
             this.txbDataOutput.TabIndex = 6;
             this.txbDataOutput.Text = "";
+            this.txbDataOutput.TextChanged += new System.EventHandler(this.txbDataOutput_TextChanged);
             // 
             // txbDataInput
             // 
@@ -318,10 +321,11 @@
             this.txbDataInput.Size = new System.Drawing.Size(528, 410);
             this.txbDataInput.TabIndex = 5;
             this.txbDataInput.Text = "";
-            //this.txbDataInput.TextChanged += new System.EventHandler(this.txbDataInput_TextChanged);
+            this.txbDataInput.TextChanged += new System.EventHandler(this.txbDataInput_TextChanged);
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.btnBuildSolution);
             this.panel2.Controls.Add(this.txbExeFileName);
             this.panel2.Controls.Add(this.txbClassName);
@@ -335,7 +339,7 @@
             // 
             // btnBuildSolution
             // 
-            this.btnBuildSolution.Location = new System.Drawing.Point(163, 135);
+            this.btnBuildSolution.Location = new System.Drawing.Point(73, 125);
             this.btnBuildSolution.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuildSolution.Name = "btnBuildSolution";
             this.btnBuildSolution.Size = new System.Drawing.Size(183, 32);
@@ -379,6 +383,24 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Class Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(292, 125);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(183, 32);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Run";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(4, 384);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(528, 224);
+            this.richTextBox1.TabIndex = 7;
+            this.richTextBox1.Text = "";
             // 
             // Form1
             // 
@@ -443,6 +465,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.RichTextBox txbDataInput;
         private System.Windows.Forms.RichTextBox txbDataOutput;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
