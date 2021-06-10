@@ -70,10 +70,7 @@ namespace DTHT
                     txbDataOutput.Text += dataoutput[i] + "\n";
                     Console.WriteLine(dataoutput[i]);
                 }
-                for (int i = 1; i <= 4; i++)
-                {
-                    this.HighLight_Syntax(txbDataOutput, CaseText(i), i);
-                }
+                this.LoadTextInputOutput();
             }
         }
 
@@ -83,6 +80,7 @@ namespace DTHT
             txbExeFileName.Text = "";
             txbDataInput.Text = "";
             txbDataOutput.Text = "";
+            //txbDataInput.LoadFile();
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
@@ -97,10 +95,7 @@ namespace DTHT
                 txbDataInput.Text = readFile.ReadToEnd();
                 readFile.Close();
             }
-            for (int i = 1; i <= 4; i++)
-            {
-                this.HighLight_Syntax(txbDataInput, CaseText(i), i);
-            }
+            this.LoadTextInputOutput();
             txbDataOutput.Text = "";
         }
 
@@ -139,10 +134,9 @@ namespace DTHT
 
         private void pasteToolStripButton_Click(object sender, EventArgs e)
         {
-            {
-                int position = ((RichTextBox)this.ActiveControl).SelectionStart;
-                this.ActiveControl.Text = this.ActiveControl.Text.Insert(position, Clipboard.GetText());
-            }
+            int position = ((RichTextBox)this.ActiveControl).SelectionStart;
+            this.ActiveControl.Text = this.ActiveControl.Text.Insert(position, Clipboard.GetText());
+            this.LoadTextInputOutput();
         }
         private void copyToolStripButton_Click(object sender, EventArgs e)
         {
@@ -161,7 +155,7 @@ namespace DTHT
 
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-            txbDataInput.Undo();
+            txbDataInput.Redo();
             toolStripLabel3.Enabled = true;
             toolStripLabel4.Enabled = false;
         }
@@ -201,13 +195,14 @@ namespace DTHT
                         using (StreamWriter sw = new StreamWriter(s))
                         {
                             sw.Write(txbDataOutput.Text);
-                            //txbExeFileName.Text=Path.GetFileName(saveFileDialog.FileName);
                         }
                     }
                 }
             }
             else
             {
+                string path = @txbExeFileName.Text;
+                File.WriteAllText(txbExeFileName.Text, txbDataInput.Text);
             }
         }
 
@@ -285,10 +280,19 @@ namespace DTHT
             }
             return str;
         }
-
-        private void txbDataInput_TextChanged(object sender, EventArgs e)
+        public void LoadTextInputOutput()
         {
-            toolStripLabel3.Enabled = true;
+            for (int i = 1; i <= 4; i++)
+            {
+                this.HighLight_Syntax(txbDataInput, CaseText(i), i);
+                this.HighLight_Syntax(txbDataOutput, CaseText(i), i);
+            }
         }
+        //private RichTextBox GetRichTextBox()
+        //{
+        //    RichTextBox rtb = null;
+        //    TabPage tp = TabControl.SelectedTab;
+        //    return rtb;
+        //}
     }
 }

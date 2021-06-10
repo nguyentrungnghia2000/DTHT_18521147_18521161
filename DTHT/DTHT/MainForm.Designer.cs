@@ -296,7 +296,7 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 55);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1243, 611);
             this.panel1.TabIndex = 2;
@@ -318,7 +318,7 @@
             this.txbDataInput.Size = new System.Drawing.Size(528, 410);
             this.txbDataInput.TabIndex = 5;
             this.txbDataInput.Text = "";
-            this.txbDataInput.TextChanged += new System.EventHandler(this.txbDataInput_TextChanged);
+            //this.txbDataInput.TextChanged += new System.EventHandler(this.txbDataInput_TextChanged);
             // 
             // panel2
             // 
@@ -328,7 +328,7 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(4, 4);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(531, 187);
             this.panel2.TabIndex = 0;
@@ -336,7 +336,7 @@
             // btnBuildSolution
             // 
             this.btnBuildSolution.Location = new System.Drawing.Point(163, 135);
-            this.btnBuildSolution.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuildSolution.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuildSolution.Name = "btnBuildSolution";
             this.btnBuildSolution.Size = new System.Drawing.Size(183, 32);
             this.btnBuildSolution.TabIndex = 4;
@@ -347,7 +347,7 @@
             // txbExeFileName
             // 
             this.txbExeFileName.Location = new System.Drawing.Point(212, 74);
-            this.txbExeFileName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txbExeFileName.Margin = new System.Windows.Forms.Padding(4);
             this.txbExeFileName.Name = "txbExeFileName";
             this.txbExeFileName.Size = new System.Drawing.Size(263, 22);
             this.txbExeFileName.TabIndex = 3;
@@ -355,7 +355,7 @@
             // txbClassName
             // 
             this.txbClassName.Location = new System.Drawing.Point(212, 22);
-            this.txbClassName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txbClassName.Margin = new System.Windows.Forms.Padding(4);
             this.txbClassName.Name = "txbClassName";
             this.txbClassName.Size = new System.Drawing.Size(263, 22);
             this.txbClassName.TabIndex = 2;
@@ -389,7 +389,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Formular Specification";
             this.menuStrip1.ResumeLayout(false);
