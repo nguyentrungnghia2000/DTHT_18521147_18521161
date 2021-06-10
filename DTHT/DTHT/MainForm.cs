@@ -25,7 +25,9 @@ namespace DTHT
         Stack<int> RedoFlag = new Stack<int>();
 
 
-        DivideFunction divideFunction = new DivideFunction();
+        FunctionNameGenerate fng = new FunctionNameGenerate();
+        FunctionPreGenerate fprg = new FunctionPreGenerate();
+        FunctionPostGenerate fpsg = new FunctionPostGenerate();
         public Form1()
         {
             InitializeComponent();
@@ -54,12 +56,12 @@ namespace DTHT
             //chia file thành 3 phần tên hàm, pre, post
             CutStringOfFileInput();
             //generate phần tên hàm
-            divideFunction.DivideFunctionName(DataOutput, functionName);
+            fng.DivideFunctionName(DataOutput, functionName);
             //generate phần pre
-            divideFunction.DividePre(DataOutput, functionPre);
+            fprg.DividePre(DataOutput, functionPre, functionName);
             //generate phần post
-            divideFunction.DividePost(DataOutput, functionPost);
-            divideFunction.MainGenerate(DataOutput, functionName);
+            fpsg.DividePost(DataOutput, functionPost, functionName);
+            fng.MainGenerate(DataOutput, functionName);
             DataOutput.Add("\t}");//class program
             DataOutput.Add("}");//name 
 

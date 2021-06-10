@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DTHT
 {
-    class DivideFunction
+    public class FunctionNameGenerate
     {
         public string funcName;
         public string funcPre;
-        string typeV;
-        string ifClause;
+        public string typeV;
+        public string ifClause;
 
-        public DivideFunction() { }
+        public FunctionNameGenerate() { }
         public void DivideFunctionName(List<string> data_output, string functionName)
         {
             funcName = functionName;
@@ -22,11 +22,11 @@ namespace DTHT
             OutputFunction(data_output, lines[0], lines[2]);
         }
         //Hàm đặt tên cho các hàm
-        string SetNameForFunction(string function)
+        public string SetNameForFunction(string function, string NameOfFunc, string type)
         {
             if (function == "Xuat")
             {
-                string[] lines = funcName.Split(new[] { "(", ")" }, StringSplitOptions.None);
+                string[] lines = NameOfFunc.Split(new[] { "(", ")" }, StringSplitOptions.None);
                 string[] variables_chars = lines[2].Split(new[] { ":" }, StringSplitOptions.None);
                 string functionname = string.Format("\t\tpublic void {1}{0}(", lines[0], function);
                 for (int i = 0; i < variables_chars.Length; i += 2)
@@ -49,17 +49,15 @@ namespace DTHT
                     }
                     string varName = string.Format("{0}", variables_chars[i]);
                     functionname += varName;
-
                 }
-
                 functionname += ")";
                 return functionname;
             }
-            else
+            else if(function == "")
             {
-                string[] lines = funcName.Split(new[] { "(", ")" }, StringSplitOptions.None);
+                string[] lines = NameOfFunc.Split(new[] { "(", ")" }, StringSplitOptions.None);
                 string[] variables_chars = lines[1].Split(new[] { ":", "," }, StringSplitOptions.None);
-                string functionname = string.Format("\t\tpublic void {1}{0}(", lines[0], function);
+                string functionname = string.Format("\t\tpublic {2}{1}{0}(", lines[0], function, typeV);
                 for (int i = 0; i < variables_chars.Length; i += 2)
                 {
                     if (variables_chars[i + 1] == "R")
@@ -96,133 +94,102 @@ namespace DTHT
                         string varName = string.Format("{0}", variables_chars[i]);
                         functionname += varName;
                     }
-
                 }
-
+                functionname += ")";
+                return functionname;
+            }
+            else if (function == "KiemTra")
+            {
+                string[] lines = NameOfFunc.Split(new[] { "(", ")" }, StringSplitOptions.None);
+                string[] variables_chars = lines[1].Split(new[] { ":", "," }, StringSplitOptions.None);
+                string functionname = string.Format("\t\tpublic int {1}{0}(", lines[0], function, typeV);
+                for (int i = 0; i < variables_chars.Length; i += 2)
+                {
+                    if (variables_chars[i + 1] == "R")
+                    {
+                        functionname += "float ";
+                    }
+                    else if (variables_chars[i + 1] == "Z")
+                    {
+                        functionname += "int ";
+                    }
+                    else if (variables_chars[i + 1] == "B")
+                    {
+                        functionname += "bool ";
+                    }
+                    else if (variables_chars[i + 1] == "char*")
+                    {
+                        functionname += "string ";
+                    }
+                    if (i == 0)
+                    {
+                        if (i + 2 >= variables_chars.Length)
+                        {
+                            string varName = string.Format("{0} ", variables_chars[i]);
+                            functionname += varName;
+                        }
+                        else
+                        {
+                            string varName = string.Format("{0}, ", variables_chars[i]);
+                            functionname += varName;
+                        }
+                    }
+                    else
+                    {
+                        string varName = string.Format("{0}", variables_chars[i]);
+                        functionname += varName;
+                    }
+                }
+                functionname += ")";
+                return functionname;
+            }
+            else
+            {
+                string[] lines = NameOfFunc.Split(new[] { "(", ")" }, StringSplitOptions.None);
+                string[] variables_chars = lines[1].Split(new[] { ":", "," }, StringSplitOptions.None);
+                string functionname = string.Format("\t\tpublic void {1}{0}(", lines[0], function);
+                for (int i = 0; i < variables_chars.Length; i += 2)
+                {
+                    if (variables_chars[i + 1] == "R")
+                    {
+                        functionname += "ref float ";
+                    }
+                    else if (variables_chars[i + 1] == "Z")
+                    {
+                        functionname += "ref int ";
+                    }
+                    else if (variables_chars[i + 1] == "B")
+                    {
+                        functionname += "ref bool ";
+                    }
+                    else if (variables_chars[i + 1] == "char*")
+                    {
+                        functionname += "ref string ";
+                    }
+                    if (i == 0)
+                    {
+                        if (i + 2 >= variables_chars.Length)
+                        {
+                            string varName = string.Format("{0} ", variables_chars[i]);
+                            functionname += varName;
+                        }
+                        else
+                        {
+                            string varName = string.Format("{0}, ", variables_chars[i]);
+                            functionname += varName;
+                        }
+                    }
+                    else
+                    {
+                        string varName = string.Format("{0}", variables_chars[i]);
+                        functionname += varName;
+                    }
+                }
                 functionname += ")";
                 return functionname;
             }
         }
-        public void DividePre(List<string> data_output, string functionPre)
-        {
-            data_output.Add(SetNameForFunction("KiemTra"));
-            data_output.Add("\t\t{");
-            // nội dung hàm pre
-            try
-            {
-                funcPre = functionPre;
-                funcPre = funcPre.Replace("pre", "").Replace(" ", string.Empty);
-                if (funcPre == "")
-                {
-                    data_output.Add("\t\t\treturn 1;");
-                }
-                else
-                {
-                    string condition = string.Format("\t\t\tif({0})", funcPre);
-                    data_output.Add(condition);
-                    data_output.Add("\t\t\t{");
-                    data_output.Add("\t\t\t\treturn 1;");
-                    data_output.Add("\t\t\t}");
-                    data_output.Add("\t\t\treturn 0;");
-                }
-            }
-            catch
-            {
-                Console.WriteLine("DividePre Failed");
-            }
-            data_output.Add("\t\t}");
-        }
-
-        public void DividePost(List<string> data_output, string functionPost)
-        {
-            //đặt tên
-            data_output.Add(SetNameForFunction(""));
-            data_output.Add("\t\t{");
-
-            //khoi tao bien result
-            string[] lines = funcName.Split(new[] { "(", ")" }, StringSplitOptions.None);
-            string[] variables_chars = lines[2].Split(new[] { ":" }, StringSplitOptions.None);
-            for (int i = 0; i < variables_chars.Length; i += 2)
-            {
-
-                if (variables_chars[i + 1] == "R")
-                {
-                    typeV = "float ";
-                }
-                else if (variables_chars[i + 1] == "Z")
-                {
-                    typeV = "int ";
-                }
-                else if (variables_chars[i + 1] == "B")
-                {
-                    typeV = "bool ";
-                }
-                else if (variables_chars[i + 1] == "char*")
-                {
-                    typeV = "string ";
-                }
-                string CreateResult = string.Format("\t\t\t{0}{1};", typeV, variables_chars[i]);
-                data_output.Add(CreateResult);
-            }
-            //nội dung hàm post
-            try
-            {
-                functionPost = functionPost.Replace("post", string.Empty).Replace(" ", string.Empty);
-                string[] conditions = functionPost.Split(new[] { "||" }, StringSplitOptions.None);
-                for (int i = 0; i < conditions.Length; i++)
-                {
-                    conditions[i] = conditions[i].Replace("(", string.Empty).Replace(")", string.Empty);
-                    if (conditions[i].Contains("&&") == true)
-                    {
-                        string[] conditions_result = conditions[i].Split(new[] { "&&" }, StringSplitOptions.None);
-                        if (conditions_result.Length > 2)
-                        {
-                            for (int j = 1; j < conditions_result.Length; j++)
-                            {
-                                if (j == 1)
-                                {
-                                    conditions_result[j] = PreWrite(conditions_result[j]);
-                                    ifClause = string.Format("\t\t\tif ({0} ", conditions_result[j]);
-                                }
-                                else if (j == conditions_result.Length - 1)
-                                {
-                                    conditions_result[j] = PreWrite(conditions_result[j]);
-                                    ifClause += string.Format("&& {0})", conditions_result[j]);
-                                }
-                                else
-                                {
-                                    conditions_result[j] = PreWrite(conditions_result[j]);
-                                    ifClause += string.Format("&& {0} ", conditions_result[j]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            conditions_result[1] = PreWrite(conditions_result[1]);
-                            ifClause = string.Format("\t\t\tif ({0})", conditions_result[1]);
-                        }
-                        data_output.Add(ifClause);
-                        string mainClause = string.Format("\t\t\t\t{0};", conditions_result[0]);
-                        data_output.Add("\t\t\t{");
-                        data_output.Add(mainClause);
-                        data_output.Add("\t\t\t}");
-                    }
-
-                    else
-                    {
-                        string mainClause = string.Format("\t\t\t{0};", conditions[i]);
-                        data_output.Add(mainClause);
-                    }
-
-                }
-                data_output.Add("\t\t}");
-            }
-            catch
-            {
-                Console.WriteLine("DividePost Failed");
-            }
-        }
-
+        //generate hàm main
         public void MainGenerate(List<string> data_output, string funcName)
         {
             data_output.Add("\t\tpublic static void Main(string[] args)");
@@ -259,80 +226,111 @@ namespace DTHT
                 if (variables_chars1[i + 1] == "R")
                 {
                     typeV = "float ";
+                    string CreateResult = string.Format("\t\t\t{0}{1} = 0;", typeV, "kq");
+                    data_output.Add(CreateResult);
                 }
                 else if (variables_chars1[i + 1] == "Z")
                 {
                     typeV = "int ";
+                    string CreateResult = string.Format("\t\t\t{0}{1} = 0;", typeV, "kq");
+                    data_output.Add(CreateResult);
                 }
                 else if (variables_chars1[i + 1] == "B")
                 {
                     typeV = "bool ";
+                    string CreateResult = string.Format("\t\t\t{0}{1} = true;", typeV, "kq");
+                    data_output.Add(CreateResult);
                 }
                 else if (variables_chars1[i + 1] == "char*")
                 {
                     typeV = "string ";
+                    string CreateResult = string.Format("\t\t\t{0}{1} = null;", typeV, "kq");
+                    data_output.Add(CreateResult);
                 }
-                string CreateResult = string.Format("\t\t\t{0}{1} = 0;", typeV, variables_chars1[i]);
-                data_output.Add(CreateResult);
+                
             }
             data_output.Add("\t\t\tProgram p = new Program();");
 
             //khoi tao ham Nhap trong main
             string functionname = string.Format("\t\t\tp.Nhap{0}(", lines[0]);
-            for (int i = 0; i < variables_chars.Length; i += 2)
+            if (variables_chars.Length > 2)
             {
-                if (i == 0)
+                for (int i = 0; i < variables_chars.Length; i += 2)
                 {
-                    string varName = string.Format("{0}, ", variables_chars[i]);
-                    functionname += varName;
+                    if (i == 0)
+                    {
+                        string varName = string.Format("ref {0}, ", variables_chars[i]);
+                        functionname += varName;
+                    }
+                    else
+                    {
+                        string varName = string.Format("ref {0}", variables_chars[i]);
+                        functionname += varName;
+                    }
                 }
-                else
-                {
-                    string varName = string.Format("{0}", variables_chars[i]);
-                    functionname += varName;
-                }
+            }
+            else
+            {
+                string varName = string.Format("ref {0}", variables_chars[0]);
+                functionname += varName;
             }
 
             functionname += ");";
             data_output.Add(functionname);
             //Kiem tra dieu kien
             string funcCondition = string.Format("\t\t\tif(p.KiemTra{0}(", lines[0]);
-            for (int i = 0; i < variables_chars.Length; i += 2)
+            if (variables_chars.Length > 2)
             {
-                if (i == 0)
+                for (int i = 0; i < variables_chars.Length; i += 2)
                 {
-                    string varName = string.Format("{0}, ", variables_chars[i]);
-                    funcCondition += varName;
+                    if (i == 0)
+                    {
+                        string varName = string.Format("{0}, ", variables_chars[i]);
+                        funcCondition += varName;
+                    }
+                    else
+                    {
+                        string varName = string.Format("{0}", variables_chars[i]);
+                        funcCondition += varName;
+                    }
                 }
-                else
-                {
-                    string varName = string.Format("{0}", variables_chars[i]);
-                    funcCondition += varName;
-                }
+            }
+            else
+            {
+                string varName = string.Format("{0}", variables_chars[0]);
+                funcCondition += varName;
             }
             funcCondition += ")==1)";
             data_output.Add(funcCondition);
             data_output.Add("\t\t\t{");
 
-            string funcCheck = string.Format("\t\t\t\t{1} = p.KiemTra{0}(", lines[0], variables_chars1[0]);
-            for (int i = 0; i < variables_chars.Length; i += 2)
+            string funcCheck = string.Format("\t\t\t\t{1} = p.{0}(", lines[0], "kq");
+            if (variables_chars.Length > 2)
             {
-                if (i == 0)
+                for (int i = 0; i < variables_chars.Length; i += 2)
                 {
-                    string varName = string.Format("{0}, ", variables_chars[i]);
-                    funcCheck += varName;
+                    if (i == 0)
+                    {
+                        string varName = string.Format("{0}, ", variables_chars[i]);
+                        funcCheck += varName;
+                    }
+                    else
+                    {
+                        string varName = string.Format("{0}", variables_chars[i]);
+                        funcCheck += varName;
+                    }
                 }
-                else
-                {
-                    string varName = string.Format("{0}", variables_chars[i]);
-                    funcCheck += varName;
-                }
+            }
+            else
+            {
+                string varName = string.Format("{0}", variables_chars[0]);
+                funcCheck += varName;
             }
             funcCheck += ");";
             data_output.Add(funcCheck);
 
             string funcOut = string.Format("\t\t\t\tp.Xuat{0}(", lines[0]);
-            string varName1 = string.Format("{0}", variables_chars1[0]);
+            string varName1 = string.Format("{0}", "kq");
             funcOut += varName1;
             funcOut += ");";
             data_output.Add(funcOut);
@@ -343,7 +341,7 @@ namespace DTHT
             data_output.Add("\t\t}");
         }
 
-        string PreWrite(string beforePW)
+        public string PreWrite(string beforePW)
         {
             string afterPW = beforePW;
             if (afterPW.Contains("=") &&
@@ -354,6 +352,13 @@ namespace DTHT
             {
                 afterPW = afterPW.Replace("=", "==");
             }
+            
+            return afterPW;
+        }
+
+        public string PreWriteTF(string beforePW)
+        {
+            string afterPW = beforePW;
             if (afterPW.Contains("FALSE"))
             {
                 afterPW = afterPW.Replace("FALSE", "false");
@@ -370,7 +375,7 @@ namespace DTHT
             string[] variables_chars = variables.Split(new[] { ":", "," }, StringSplitOptions.None);
             try
             {
-                data_output.Add(SetNameForFunction("Nhap"));
+                data_output.Add(SetNameForFunction("Nhap", funcName, typeV));
                 data_output.Add("\t\t{");
 
                 // nội dung hàm nhập
@@ -382,15 +387,15 @@ namespace DTHT
 
                     if (variables_chars[i + 1] == "R")
                     {
-                        inputWrite += "float.Parse(Console.ReadLine())";
+                        inputWrite += "float.Parse(Console.ReadLine());";
                     }
                     else if (variables_chars[i + 1] == "Z")
                     {
-                        inputWrite += "int.Parse(Console.ReadLine())";
+                        inputWrite += "int.Parse(Console.ReadLine());";
                     }
                     else if (variables_chars[i + 1] == "B")
                     {
-                        inputWrite += "bool.Parse(Console.ReadLine())";
+                        inputWrite += "bool.Parse(Console.ReadLine());";
                     }
                     data_output.Add(inputWrite);
                 }
@@ -408,13 +413,13 @@ namespace DTHT
             try
             {
 
-                data_output.Add(SetNameForFunction("Xuat"));
+                data_output.Add(SetNameForFunction("Xuat", funcName, typeV));
                 data_output.Add("\t\t{");
 
                 // nội dung hàm nhập
                 for (int i = 0; i < result_char.Length; i += 2)
                 {
-                    string input = string.Format("\t\t\tConsole.WriteLine(" + "\"Ket qua la: {0} \");", result_char[i]);
+                    string input = string.Format("\t\t\tConsole.WriteLine(" + "\"Ket qua la: \" + {0});", result_char[i]);
                     data_output.Add(input);
                 }
                 data_output.Add("\t\t}");
