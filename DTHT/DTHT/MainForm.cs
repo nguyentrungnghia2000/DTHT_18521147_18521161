@@ -122,12 +122,18 @@ namespace DTHT
                             sw.Write(txbDataOutput.Text);
                         }
                     }
+                    MessageBox.Show("Lưu file thành công");
+                }
+                else
+                {
+                    MessageBox.Show("Lưu file thất bại vì không có nội dung");
                 }
             }
             else
             {
                 string path = @txbExeFileName.Text;
                 File.WriteAllText(txbExeFileName.Text, txbDataInput.Text);
+                MessageBox.Show("Lưu file thành công");
             }
         }
 
@@ -229,12 +235,18 @@ namespace DTHT
                             sw.Write(txbDataOutput.Text);
                         }
                     }
+                    MessageBox.Show("Lưu file thành công");
                 }
+                else
+                {
+                    MessageBox.Show("Lưu file thất bại vì không có nội dung");
+                }    
             }
             else
             {
                 string path = @txbExeFileName.Text;
                 File.WriteAllText(txbExeFileName.Text, txbDataInput.Text);
+                MessageBox.Show("Lưu file thành công");
             }
         }
 
